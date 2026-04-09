@@ -358,6 +358,15 @@ VITE_UPLOAD_URL=http://localhost:5000
 
 ---
 
-## License
+## Screnshots
 
-This project is built for educational and portfolio purposes.
+<img width="1920" height="1414" alt="image" src="https://github.com/user-attachments/assets/e212481e-608a-4939-814c-f967dd344873" />
+
+<img width="1920" height="1437" alt="image" src="https://github.com/user-attachments/assets/ddcc138e-864e-4455-b18d-2ff886c30cd2" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/7bc1d7e6-cc7e-4b80-b8d1-4a7ca468a045" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/30091751-400e-4c0d-a30d-3150a638ad0b" />
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/5c759ed7-37dd-4bd1-adcf-a8bfcb7f1454" />
+
