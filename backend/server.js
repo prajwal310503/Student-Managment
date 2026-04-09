@@ -5,7 +5,6 @@ const express = require('express');
 const path = require('path');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const cors = require('cors');
 
 const connectDB = require('./config/db');
 const studentRoutes = require('./routes/studentRoutes');
@@ -16,14 +15,21 @@ connectDB();
 
 const app = express();
 
-app.use(helmet());
+// ── CORS must be FIRST — before helmet and everything else ─────────────
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', req.headers.origin || '*');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS,PATCH');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept');
+  if (req.method === 'OPTIONS') return res.sendStatus(204);
+  next();
+});
+
+app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(morgan('dev'));
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use('/uploads', (req, res, next) => {
   res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
   next();
@@ -36,5 +42,5 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
+  console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
 });
