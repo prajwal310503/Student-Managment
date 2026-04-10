@@ -1,5 +1,9 @@
-export const buildPhotoUrl = (photoPath) =>
-  photoPath ? `${import.meta.env.VITE_UPLOAD_URL}${photoPath}` : null;
+export const buildPhotoUrl = (photoPath) => {
+  if (!photoPath) return null;
+  // Cloudinary returns full URL; legacy local paths start with /uploads
+  if (photoPath.startsWith('http')) return photoPath;
+  return `${import.meta.env.VITE_UPLOAD_URL}${photoPath}`;
+};
 
 export const getInitials = (name = '') => {
   return name

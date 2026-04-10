@@ -215,7 +215,11 @@ const StudentForm = ({ initialData = null, onSubmit, loading = false, onCancel }
         <div className="col-span-1 sm:col-span-2">
           <PhotoUpload
             currentPhotoUrl={
-              initialData?.photo ? `${import.meta.env.VITE_UPLOAD_URL}${initialData.photo}` : null
+              initialData?.photo
+                ? initialData.photo.startsWith('http')
+                  ? initialData.photo
+                  : `${import.meta.env.VITE_UPLOAD_URL}${initialData.photo}`
+                : null
             }
             onChange={(file) => setPhotoFile(file)}
           />

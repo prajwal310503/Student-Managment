@@ -72,7 +72,8 @@ const getStudentById = async (req, res) => {
 const createStudent = async (req, res) => {
   const data = { ...req.body };
   if (req.file) {
-    data.photo = `/uploads/${req.file.filename}`;
+    // Cloudinary: full URL is in req.file.path
+    data.photo = req.file.path;
   }
   delete data.admissionNumber;
   if ('isActive' in data) data.isActive = data.isActive === 'true' || data.isActive === true;
@@ -93,10 +94,9 @@ const updateStudent = async (req, res) => {
   if ('isActive' in updates) updates.isActive = updates.isActive === 'true' || updates.isActive === true;
 
   if (req.file) {
-    if (student.photo) {
-      deleteFile(student.photo);
-    }
-    updates.photo = `/uploads/${req.file.filename}`;
+    // Delete old photo from Cloudinary
+    if (student.photo) await deleteFile(student.photo);
+    updates.photo = req.file.path;
   }
 
   const updated = await Student.findByIdAndUpdate(
@@ -115,9 +115,7 @@ const deleteStudent = async (req, res) => {
     return res.status(404).json({ success: false, message: 'Student not found' });
   }
 
-  if (student.photo) {
-    deleteFile(student.photo);
-  }
+  if (student.photo) await deleteFile(student.photo);
 
   await Student.findByIdAndDelete(req.params.id);
 
